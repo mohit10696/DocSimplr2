@@ -44,6 +44,12 @@ def about():
 def services():
     return render_template("services.html")
 
+@app.route('/userdata.html')
+def userdata():
+	if session.get('logged_in'):
+	    return render_template("userdata.html",namelist=getuserdata.resumename(session['email']))
+   
+
 @app.route('/feedback.html')
 def feedback():
     return render_template("feedback.html")

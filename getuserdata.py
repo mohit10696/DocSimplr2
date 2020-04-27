@@ -40,3 +40,17 @@ def getmasterimage(email):
     saveloc = 'static/maingraph/'+email+'.png'
     plt.savefig(saveloc,bbox_inches='tight')
     return saveloc
+
+def resumename(email):
+    response = table.scan(
+        FilterExpression=Attr("email").eq("mohitsojitraa@gmail.com")
+	
+    )
+    output = []
+#print(table.__dict__)
+#print(response)
+    response = response['Items']
+#print(response)
+    for i in response:
+        output.append(i['name'])
+    return output
