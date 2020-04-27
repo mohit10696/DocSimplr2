@@ -46,9 +46,9 @@ def services():
 
 @app.route('/userdata.html')
 def userdata():
-	if session.get('logged_in'):
-	    return render_template("userdata.html",namelist=getuserdata.resumename(session['email']))
-   
+    if session.get('logged_in'):
+        namelist = getuserdata.resumename(session['email'])
+        return render_template("userdata.html",namelist=namelist,len = len(namelist))
 
 @app.route('/feedback.html')
 def feedback():
