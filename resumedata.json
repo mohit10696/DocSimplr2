@@ -1,0 +1,41 @@
+[
+    {
+        "name": "17IT109",
+        "Back-End": "2.0",
+        "Business": "0.0",
+        "C/C++": "2.0",
+        "Cyber-Security": "1.0",
+        "DataBase": "1.0",
+        "Front-End": "0.0",
+        "Java": "1.0",
+        "Python": "1.0",
+        "Web": "0.0",
+        "email": "mohitsojitraa@gmail.com"
+    },
+    {
+        "name": "AMITKUMAR",
+        "Back-End": "1.0",
+        "Business": "0.0",
+        "C/C++": "2.0",
+        "Cyber-Security": "0.0",
+        "DataBase": "1.0",
+        "Front-End": "2.0",
+        "Java": "0.0",
+        "Python": "1.0",
+        "Web": "3.0",
+        "email": "mohitsojitraa@gmail.com"
+    },
+    {
+        "name": "RESUME",
+        "Back-End": "2.0",
+        "Business": "1.0",
+        "C/C++": "1.0",
+        "Cyber-Security": "0.0",
+        "DataBase": "1.0",
+        "Front-End": "2.0",
+        "Java": "0.0",
+        "Python": "0.0",
+        "Web": "7.0",
+        "email": "mohitsojitraa@gmail.com"
+    }
+]

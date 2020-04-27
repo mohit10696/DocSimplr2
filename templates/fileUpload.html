@@ -63,11 +63,20 @@
 				        <a href="index.html"><img src="{{ url_for('static',filename='./img/doclogo.png') }}" height="70px" width="200px" alt="" title="" /></a>
 				      </div>
 				      <nav id="nav-menu-container">
-				        <ul class="nav-menu">
-				          <li class="menu-active"><a href="index.html">Home</a></li>
+						
+						<ul class="nav-menu">
+							{% if not session['email'] %}
+							<li><a href="login.html">Login</a></li>
+						{% endif %}
+						{% if session['email'] %}
+						<li>Welcome {{ session['email'] }} ...</li>
+						{% endif %}
+				        	
+				          
 				          <li><a href="about.html">About</a></li>
 				          <li><a href="services.html">Service</a></li>
 				          <li><a href="feedback.html">Feedback</a></li>
+
 				          <!-- <li class="menu-has-children"><a href="">Blog</a>
 				            <ul>
 				              <li><a href="blog-home.html">Blog Home</a></li>
@@ -75,7 +84,10 @@
 				            </ul>
 				          </li>						          
 			              <li><a href="elements.html">Elements</a></li>	 -->			          
-				          <li><a href="contact.html">Contact</a></li>
+						  <li><a href="contact.html">Contact</a></li>
+						  {% if session['email'] %}
+						<li><a href="logout" style="color:red;">Logout</a></li>
+						{% endif %}
 				        </ul>
 				      </nav><!-- #nav-menu-container -->		    		
 			    	</div>
@@ -123,7 +135,11 @@
 		<input type="file" id="chooseButton" name="uploadResume" accept=".Zip"/><br>
 		<!-- <button class="button" type="submit" value="Upload" id="fileButton" >UPLOAD</button><br><br> -->
         <h2 style="font-size:200%" align="center">Enter your E-mail Id :</h2>
-  		<input type="email" id="email" name="email"><br><br>
+		  <input type="email" id="email" name="email" value="{{ session['email'] }}"
+		  {% if session['email'] %}
+		  DISABLED
+		  {% endif %}
+		  ><br><br>
   		<button class="button" type="submit" id="submitButton">SUBMIT</button> 
   	</form>
 		<style>

@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for,flash
+from flask import Flask, render_template, request, redirect, url_for,flash,session
 import os
 import resumeMatcher
+import validate2
+import getuserdata
 
 # UPLOAD_FOLDER = '/path/to/the/uploads'
 ALLOWED_EXTENSIONS = {'zip'}
@@ -9,16 +11,29 @@ application = app = Flask(__name__)
 app.secret_key =os.urandom(12)
 
 @app.route('/')
-def index():
-   return render_template("index.html")
- 
+def home():
+	if not session.get('logged_in'):
+		return render_template('index.html')
+	else:
+		return render_template('home.html',imgurl=getuserdata.getmasterimage(session['email']))
+	 
 @app.route('/fileUpload.html')
 def upload():
-	return render_template("fileUpload.html")
+    if not session.get('logged_in'):
+	    return render_template("fileUpload.html")
+    else:
+        return render_template("fileUpload.html")
 
 @app.route('/index.html')
 # @exception_handler
 def indexRedirect():
+    return render_template("index.html")
+
+@app.route('/logout')
+# @exception_handler
+def logout():
+    session['logged_in'] = False
+    session.clear()
     return render_template("index.html")
 
 @app.route('/about.html')
@@ -37,6 +52,10 @@ def feedback():
 def contact():
     return render_template("contact.html")
 
+@app.route('/login.html')
+def login():
+    return render_template("login.html")
+
 @app.route('/file', methods=['GET', 'POST'])
 def handleFileUpload():
     if request.method == "POST":
@@ -50,6 +69,18 @@ def handleFileUpload():
 
     flash("Email Has been sent!")      
     return render_template('index.html')
- 
+
+@app.route('/validate', methods=['GET', 'POST'])
+def validate():
+    email = request.form['email']
+    password = request.form['pass']
+    if validate2.init(email,password):
+        session['email'] = email
+        session['logged_in'] = True
+        imgurl= getuserdata.getmasterimage(email)
+        return render_template("home.html",imgurl=imgurl)
+    else:
+	    return render_template("index.html")
 if __name__ == '__main__':
-   app.run(debug=True)
+	app.secret_key = os.urandom(24)
+	app.run(debug=True)

@@ -16,6 +16,8 @@ from spacy.matcher import PhraseMatcher
 import matplotlib.pyplot as plt
 import shutil
 import smtplib 
+import convt
+import addData
 from email.mime.multipart import MIMEMultipart 
 from email.mime.text import MIMEText 
 from email.mime.base import MIMEBase 
@@ -110,9 +112,9 @@ def createProfile(file):
   base=os.path.basename(file)
   filename=os.path.splitext(base)[0]
   name=filename.split('_')[0].upper()
-  name1=pd.read_csv(StringIO(name),names=['Candidate Name'])
-  dataf = pd.concat([name1['Candidate Name'], df3['Subject'], df3['Keyword'], df3['Count']], axis = 1)
-  dataf['Candidate Name'].fillna(dataf['Candidate Name'].iloc[0], inplace = True)
+  name1=pd.read_csv(StringIO(name),names=['name'])
+  dataf = pd.concat([name1['name'], df3['Subject'], df3['Keyword'], df3['Count']], axis = 1)
+  dataf['name'].fillna(dataf['name'].iloc[0], inplace = True)
   # print(dataf)
   return(dataf)
   #function ends
@@ -129,14 +131,14 @@ def finalFrame(onlyfiles):
 	    i +=1
 	    # print(final_database)
 
-	final_database2 = final_database['Keyword'].groupby([final_database['Candidate Name'], final_database['Subject']]).count().unstack()
+	final_database2 = final_database['Keyword'].groupby([final_database['name'], final_database['Subject']]).count().unstack()
 	final_database2.reset_index(inplace = True)
 	final_database2.fillna(0,inplace=True)
 	new_data = final_database2.iloc[:,1:]
-	new_data.index = final_database2['Candidate Name']
+	new_data.index = final_database2['name']
+	#print(type(new_data))
 	#execute the below line if you want to see the candidate profile in a csv format
-	# sample2=new_data.to_csv('sample.csv')
-
+	sample2=new_data.to_csv('sample.csv')
 	plt.rcParams.update({'font.size': 10})
 	ax = new_data.plot.barh(title="Resume keywords by category", legend=False, figsize=(25,7), stacked=True)
 	labels = []
@@ -236,8 +238,11 @@ def process(filePath,toaddr):
 	# file=onlyfiles[1]
 	# print(onlyfiles)
 	finalFrame(onlyfiles)
-	send_mail(toaddr)
+	convt.convert(toaddr)
+	addData.upload()
+	#send_mail(toaddr)
 	emptyDir(mypath)
 	emptyDir(uploadedR)
 	# shutil.rmtree(mypath)
-	os.remove('email.pdf')
+	#os.remove('email.pdf')
+
