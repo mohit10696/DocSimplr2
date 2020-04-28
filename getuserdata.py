@@ -43,8 +43,7 @@ def getmasterimage(email):
 
 def resumename(email):
     response = table.scan(
-        FilterExpression=Attr("email").eq("mohitsojitraa@gmail.com")
-	
+        FilterExpression=Attr("email").eq(email)
     )
     output = []
 #print(table.__dict__)
@@ -54,3 +53,17 @@ def resumename(email):
     for i in response:
         output.append(i['name'])
     return output
+
+def getoneuserdata(name,email):
+    response = table.scan(
+        FilterExpression=Attr("email").eq(email) & Attr("name").eq(name)
+    )
+    output = {}
+    response = response['Items']
+    for i in response:
+        for j in i:
+            if(j == 'email' or j == 'name'):
+                break
+            output[j] = float(i[j]) 
+    return output
+

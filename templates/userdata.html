@@ -1,6 +1,55 @@
 	<!DOCTYPE html>
 	<html lang="zxx" class="no-js">
 	<head>
+		<style>
+			#demo-modal {
+				text-align: center;
+				padding: 20px;
+			}
+			
+			#demo-modal-target {
+				background: url(modal_bg.jpg) no-repeat top left fixed;
+				font-family: calibri;
+				max-width: 550px;
+				text-align: center;
+				color: #FFF;
+				padding: 70px 0px;
+			}
+			
+			.demo-title {
+				font-size: 2em;
+				padding: 40px;
+			}
+			
+			.btn-modal-target {
+				padding: 10px 20px;
+				color: #F0F0F0;
+				margin: 5px;
+				border-radius: 15px;
+				cursor: pointer;
+				width: 70px;
+				display: inline-block;
+			}
+			
+			#btn-jquery {
+				background: #e85545;
+			}
+			
+			#btn-bootstrap {
+				background: #43cb83;
+			}
+			
+			#btn-responsive {
+				background: #ff9e8f;
+			}
+			
+			.modal-text {
+				margin-top: 15px;
+				line-height: 25px;
+				font-size: 1.0em;
+				font-family: calibri;
+			}
+			</style>
 		<!-- Mobile Specific Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- Favicon-->
@@ -26,6 +75,7 @@
 			<!--
 			CSS
 			============================================= -->
+			<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 			<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='./css/linearicons.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='./css/font-awesome.min.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='./css/bootstrap.css') }}">
@@ -49,6 +99,7 @@
 		
 		</head>
 		<body>	
+			<div id="demo-modal"></div>
 			  <header id="header" id="home">
 		  		<!-- <div class="header-top">
 		  			<div class="container">
@@ -120,6 +171,7 @@
 					</div>
 				</div>
 			</section>
+			
 			<!-- End banner Area -->	
 			<div class="testomial-area section-gap" >
 				<div class="container-table100">
@@ -138,7 +190,7 @@
 								</thead>
 								<tbody>
 										{%for i in range(0, len)%} 
-										<tr onClick="window.location.href='popupbox.html?name={{namelist[i]}}';">
+										<tr onClick="loadDynamicContentModal('jquery','{{namelist[i]}}')">
 											<td class="column1">{{namelist[i]}}</td>
 											<td class="column2">200398</td>
 											<td class="column3">iPhone X 64Gb Grey</td>
@@ -404,6 +456,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			<script src="{{ url_for('static',filename='./js/jquery.nice-select.min.js')}}"></script>	
     		<script src="{{ url_for('static',filename='./js/jquery.circlechart.js')}}"></script>								
 			<script src="{{ url_for('static',filename='./js/mail-script.js')}}"></script>	
-			<script src="{{ url_for('static',filename='./js/main.js')}}"></script>	
+			<!-- <script src="{{ url_for('static',filename='./js/main.js')}}"></script> -->
+			<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+			<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+			<script>
+			function loadDynamicContentModal(modal,name){
+				var options = {
+						modal: true,
+						height:500,
+						width:500
+					};
+				$('#demo-modal').load("userchart.html?name="+name).dialog(options).dialog('open');
+			}
+			</script>	
 		</body>
 	</html>

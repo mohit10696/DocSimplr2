@@ -62,6 +62,12 @@ def contact():
 def login():
     return render_template("login.html")
 
+@app.route('/userchart.html',methods=['GET'])
+def userchart():
+    name=request.args.get('name')
+    data = getuserdata.getoneuserdata(name,session['email'])
+    return render_template("chart.html",name=name,data=data)
+
 @app.route('/file', methods=['GET', 'POST'])
 def handleFileUpload():
     if request.method == "POST":
@@ -72,7 +78,7 @@ def handleFileUpload():
     		file.save(filePath)
     	if len(email)>0:
     		resumeMatcher.process(filePath,email)
-
+            
     flash("Email Has been sent!")      
     return render_template('index.html')
 
