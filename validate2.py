@@ -22,3 +22,9 @@ def init(email,password):
     else:
         print("Successfully not login")   
         return 0
+
+def signup(username,email,password):
+    mycursor = mydb.cursor()
+    mycursor.execute("INSERT INTO `docsimplr`.`login` (`email`, `password`, `key`) VALUES ('"+email+"', '"+password+"', '"+username+"')")
+    mydb.commit()
+

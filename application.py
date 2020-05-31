@@ -25,9 +25,11 @@ def upload():
         return render_template("fileUpload.html")
 
 @app.route('/index.html')
-# @exception_handler
-def indexRedirect():
-    return render_template("index.html")
+def index():
+	if not session.get('logged_in'):
+		return render_template('index.html')
+	else:
+		return render_template('home.html',imgurl=getuserdata.getmasterimage(session['email']))
 
 @app.route('/logout')
 # @exception_handler
@@ -48,7 +50,10 @@ def services():
 def userdata():
     if session.get('logged_in'):
         namelist = getuserdata.resumename(session['email'])
-        return render_template("userdata.html",namelist=namelist,len = len(namelist))
+        quntitylist = getuserdata.resumesum(session['email'])
+        topskill = getuserdata.topskill(session['email'])
+        toplng = getuserdata.toplanguage(session['email'])
+        return render_template("userdata.html",toplng=toplng,topskill=topskill,namelist=namelist,len = len(namelist),quntitylist=quntitylist)
 
 @app.route('/feedback.html')
 def feedback():
@@ -62,6 +67,10 @@ def contact():
 def login():
     return render_template("login.html")
 
+@app.route('/signup.html')
+def signup():
+    return render_template("signup.html")
+
 @app.route('/userchart.html',methods=['GET'])
 def userchart():
     name=request.args.get('name')
@@ -70,17 +79,22 @@ def userchart():
 
 @app.route('/file', methods=['GET', 'POST'])
 def handleFileUpload():
+    if not session.get('logged_in'):
+	    email=request.form['email']
+    else:
+        email = session['email']
     if request.method == "POST":
     	file=request.files['uploadResume']
-    	email=request.form['email']
     	if file.filename != '':
     		filePath=os.path.join('./UploadedResume',file.filename)
     		file.save(filePath)
     	if len(email)>0:
     		resumeMatcher.process(filePath,email)
-            
-    flash("Email Has been sent!")      
-    return render_template('index.html')
+    if not session.get('logged_in'):
+	    return render_template('index.html')
+    else:
+        return render_template('home.html',imgurl=getuserdata.getmasterimage(session['email']))
+
 
 @app.route('/validate', methods=['GET', 'POST'])
 def validate():
@@ -93,6 +107,19 @@ def validate():
         return render_template("home.html",imgurl=imgurl)
     else:
 	    return render_template("index.html")
+
+@app.route('/signingup', methods=['GET', 'POST'])
+def signingup():
+    email = request.form['email']
+    password = request.form['pass']
+    password2 = request.form['pass2']
+    username = request.form['uname']
+    if password2==password:
+        validate2.signup(username,email,password)
+        return render_template("login.html")
+    else:
+	    return render_template("Password not match")
+
 if __name__ == '__main__':
 	app.secret_key = os.urandom(24)
 	app.run(debug=True)

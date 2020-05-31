@@ -181,22 +181,18 @@
 								<thead>
 									<tr class="table100-head">
 										<th class="column1">Name</th>
-										<th class="column2">Order ID</th>
-										<th class="column3">Name</th>
-										<th class="column4">Price</th>
-										<th class="column5">Quantity</th>
-										<th class="column6">Total</th>
+										<th class="column2">Quality level</th>
+										<th class="column3">Top skills</th>
+										<th class="column4">Top languages</th>
 									</tr>
 								</thead>
 								<tbody>
 										{%for i in range(0, len)%} 
 										<tr onClick="loadDynamicContentModal('jquery','{{namelist[i]}}')">
 											<td class="column1">{{namelist[i]}}</td>
-											<td class="column2">200398</td>
-											<td class="column3">iPhone X 64Gb Grey</td>
-											<td class="column4">$999.00</td>
-											<td class="column5">1</td>
-											<td class="column6">$999.00</td>
+											<td class="column2">{{quntitylist[i]}}</td>
+											<td class="column3">{{topskill[i]}}</td>
+											<td class="column4">{{toplng[i]}}</td>
 										</tr>
 										{%endfor%}
 										
